@@ -42,7 +42,7 @@ export class Server {
 
 
     this.serverListener = this.app.listen(this.port, () => {
-        console.log( colors.cyan.bold(`Server running on port ${ this.port }`));
+        console.log( colors.cyan.bold(`Server ejecutandose en el puerto ${ this.port }`));
       });
   }
 
