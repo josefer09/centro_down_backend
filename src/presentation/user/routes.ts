@@ -21,9 +21,10 @@ export class UserRoutes {
 
         // Definir las rutas
         //router.post('/login', controller.loginUser);
+        router.get('/:id', controller.getUserById);
         router.post('/register', controller.registeUser);
-
-        //router.get('/validate-email/:token', controller.validateEmail);
+        router.get(`/validate-email/:token`, controller.validateEmailToken);
+        router.post('/login', controller.loginUser);
 
 
         return router;

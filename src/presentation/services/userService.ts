@@ -2,12 +2,10 @@ import { UserModel } from "../../data/mysql/models/user";
 import { EmailService } from "./emailService";
 import { CreateUserDTO } from "../../domain/dtos/user/create-user-dto";
 import { CustomError } from "../../domain/errors/customs.error";
-import { BcryptAdapter } from "../../config/bycript.adapter";
 import { Model } from "sequelize";
-import { JwtAdapter } from "../../config/jwt.adapter";
-import { envs } from "../../config";
+import { JwtAdapter, envs, Uuid, BcryptAdapter, } from "../../config";
 import { UserEntity } from "../../domain/entity/user";
-import { Uuid } from "../../config/uuid.adapter";
+import { UserLoginType } from "../types";
 
 export class UserService {
   // DI - Email Service
@@ -37,7 +35,8 @@ export class UserService {
       // Email de confirmacion
       const isSent = this.sendEmailValidationLink(user.email, user.token);
 
-      if (!isSent) throw CustomError.internalServer('Error al enviar el correo');
+      if (!isSent)
+        throw CustomError.internalServer("Error al enviar el correo");
 
       return {
         user, // Retornamos el user que nos genera el modelo
@@ -47,11 +46,70 @@ export class UserService {
     }
   }
 
-  private async sendEmailValidationLink(email: string, token: string,) {
+  public async validateEmailToken(token: string) {
+    try {
+      // Validar si el token existe en nuestra db
+      const existToken = await UserModel.findOne({ where: { token: token } });
+
+      if (!existToken) throw CustomError.badRequest("El token es invalido");
+
+      // console.log(existToken.dataValues);
+      // Operaciones necesarias
+      // Actualizar el token y el status del email
+      const userUpdate = await UserModel.update(
+        { emailValidated: true, token: "" },
+        { where: { token: token } }
+      );
+
+      return {
+        msg: 'Email validado',
+      };
+    } catch (error) {
+      throw CustomError.internalServer(`${error}`);
+    }
+  }
+
+  public async getUserById(id: string | number) {
+    // obtener id
+    const existUser = await UserModel.findByPk(id);
+
+    if(!existUser) throw CustomError.badRequest(`El usuario con id: ${id} no existe`);
+
+    return {
+      user: existUser,
+    }
+  }
+
+  public async loginUser(userData: UserLoginType) {
+    // Obtenemos los datos y destructuramos para facilitar el trabajo
+    const { email, password } = userData;
+
+    // Validamos si el usuario o email existe
+    const existUser = await UserModel.findOne({ where: {email}});
+    if(!existUser) throw CustomError.notFound(`No existe un usuario con el email: ${email}`);
+
+    // Validamos las contrasenas
+    const isMatch = BcryptAdapter.compare(password, existUser.password); // :a primera pass es la del usuario ej: admin y la segunda la encriptada ej: JKSDFH
+    if(!isMatch) throw CustomError.unauthorized('Password Incorrecta');
+
+    // Construir un jwt
+    const token = await JwtAdapter.generatetoken({id: existUser.id_user,} )
+    if(!token) throw CustomError.internalServer('Error al crear el token');
+
+    return {
+      msg: 'Usuario autenticado correctamente',
+      data: {
+        user: existUser,
+        token: token,
+      }
+    }
+  }
+
+  private async sendEmailValidationLink(email: string, token: string) {
     //const token = await JwtAdapter.generatetoken({ email });
     //if (!token) throw CustomError.internalServer("Error getting token");
 
-    const link = `${envs.WEBSERVICE_URL}/auth/validate-email/${token}`;
+    const link = `${envs.WEBSERVICE_URL}/user/validate-email/${token}`;
 
     const html = `
         <h1>Valida tu Email</h1>
