@@ -88,6 +88,9 @@ export class UserService {
     const existUser = await UserModel.findOne({ where: {email}});
     if(!existUser) throw CustomError.notFound(`No existe un usuario con el email: ${email}`);
 
+    // Validamos el email
+    if(existUser.emailValidated === false) throw CustomError.notFound(`El email no ha sido confirmado`);
+
     // Validamos las contrasenas
     const isMatch = BcryptAdapter.compare(password, existUser.password); // :a primera pass es la del usuario ej: admin y la segunda la encriptada ej: JKSDFH
     if(!isMatch) throw CustomError.unauthorized('Password Incorrecta');
@@ -98,7 +101,7 @@ export class UserService {
 
     return {
       msg: 'Usuario autenticado correctamente',
-      data: {
+      dataUser: {
         user: existUser,
         token: token,
       }
@@ -109,7 +112,7 @@ export class UserService {
     //const token = await JwtAdapter.generatetoken({ email });
     //if (!token) throw CustomError.internalServer("Error getting token");
 
-    const link = `${envs.WEBSERVICE_URL}/user/validate-email/${token}`;
+    const link = `${envs.WEBSERVICE_URL}/src/pages/confirmar_usuario.html/${token}`;
 
     const html = `
         <h1>Valida tu Email</h1>

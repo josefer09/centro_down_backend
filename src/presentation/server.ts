@@ -1,8 +1,8 @@
 import express, { Router } from "express";
 import path from "path";
 import fileUpload from "express-fileupload";
-import cors from 'cors';
-import colors from 'colors';
+import cors from "cors";
+import colors from "colors";
 
 interface Options {
   port: number;
@@ -25,6 +25,13 @@ export class Server {
   }
 
   async start() {
+    //* Cors
+    const corsOption = {
+      origin: '*'
+    };
+
+    this.app.use(cors(corsOption));
+
     //* Middlewares
     this.app.use(express.json()); // raw
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded
@@ -42,8 +49,10 @@ export class Server {
 
 
     this.serverListener = this.app.listen(this.port, () => {
-        console.log( colors.cyan.bold(`Server ejecutandose en el puerto ${ this.port }`));
-      });
+      console.log(
+        colors.cyan.bold(`Server ejecutandose en el puerto ${this.port}`)
+      );
+    });
   }
 
   public close() {
