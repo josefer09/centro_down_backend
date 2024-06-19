@@ -40,6 +40,12 @@ export class UserController {
         .catch( error => this.handleError(error, res));
     }
 
+    getUsers = (req: Request, res: Response) => {
+        this.userService.getUsers()
+        .then( users => res.json(users).status(200))
+        .catch( error => this.handleError(error, res));
+    }
+
     loginUser = (req: Request, res: Response) => {
         const {email, password} = req.body;
 

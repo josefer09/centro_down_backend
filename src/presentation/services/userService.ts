@@ -80,6 +80,19 @@ export class UserService {
     }
   }
 
+  public async getUsers() {
+    // Obtener los usuarios en la db
+    try {
+      const users = await UserModel.findAll();
+      return {
+        users
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+
   public async loginUser(userData: UserLoginType) {
     // Obtenemos los datos y destructuramos para facilitar el trabajo
     const { email, password } = userData;
@@ -102,7 +115,11 @@ export class UserService {
     return {
       msg: 'Usuario autenticado correctamente',
       dataUser: {
-        user: existUser,
+        user: {
+          email: existUser.email,
+          name: existUser.name,
+          rol: existUser.rol,
+        },
         token: token,
       }
     }

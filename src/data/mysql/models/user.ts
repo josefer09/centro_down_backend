@@ -10,7 +10,7 @@ export class UserModel extends Model {
     public emailValidated!: boolean;
     public password!: string;
     public token!: string;
-    public type!: 'ADMIN' | 'MAESTROS' | 'TUTOR';
+    public rol!: 'ADMIN' | 'MAESTRO' | 'TUTOR';
 }
 
 UserModel.init({

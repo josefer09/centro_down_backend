@@ -3,6 +3,7 @@ import { EmailService } from '../services/emailService';
 import { envs } from '../../config';
 import { UserService } from '../services/userService';
 import { UserController } from './controller';
+import { AuthMiddleware } from '../middleware/auth.middleware';
 
 
 export class UserRoutes {
@@ -25,6 +26,9 @@ export class UserRoutes {
         router.post('/register', controller.registeUser);
         router.get(`/validate-email/:token`, controller.validateEmailToken);
         router.post('/login', controller.loginUser);
+
+        router.get('/', [AuthMiddleware.validateJWT], controller.getUsers);
+
 
 
         return router;
