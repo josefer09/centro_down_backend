@@ -12,7 +12,7 @@ export class ProfesorModel extends Model {
     public sexo!: 'MASCULINO' | 'FEMENINO' | 'OTRO';
     public fecha_nacimiento!: Date;
     public matricula!: string;
-    public telefono!: number;
+    public telefono!: string;
 }
 
 ProfesorModel.init({

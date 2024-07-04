@@ -8,7 +8,7 @@ AprendizajeActividadModel.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'aprendizajes_esperados',
+            model: 'AprendizajeEsperado',
             key: 'id_aprendizaje_esperado',
         },
     },
@@ -16,7 +16,7 @@ AprendizajeActividadModel.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'actividades',
+            model: 'Actividad',
             key: 'id_actividad',
         },
     },

@@ -16,6 +16,7 @@ export class AprendizajeEsperadoServicio {
             const existAprendizaje = await AprendizajeEsperadoModel.findOne({
                 where: { nombre: createAprendizajeEsperadoDto.nombre}
             });
+            console.log(existAprendizaje);
             if(existAprendizaje) throw CustomError.badRequest('Aprendizaje Esperado alredy exist');
 
             // Guardar en la db
@@ -38,7 +39,7 @@ export class AprendizajeEsperadoServicio {
             return {aprendizaje};
         } catch (error) {
             console.log(error);
-            throw CustomError.internalServer('Internal Server Error MySql');
+            throw CustomError.internalServer('Error when create new Aprendizaje');
         }
     }
 
@@ -57,7 +58,9 @@ export class AprendizajeEsperadoServicio {
 
     public async getAll() {
         try {
-            const aprendizajes = await AprendizajeEsperadoModel.findAll();
+            const aprendizajes = await AprendizajeEsperadoModel.findAll({
+                include: [{ model: ActividadModel, as: 'actividades' }],
+            });
             return {aprendizajes};
         } catch (error) {
             console.log(error);
