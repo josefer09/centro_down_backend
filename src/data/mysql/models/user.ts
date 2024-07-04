@@ -32,7 +32,6 @@ UserModel.init({
     emailValidated: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        unique: true,
         defaultValue: false,
     },
     password: {
