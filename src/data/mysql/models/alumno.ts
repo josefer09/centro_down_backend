@@ -51,6 +51,7 @@ AlumnoModel.init({
     },
 }, {
     sequelize,
+    modelName: 'AlumnoModel',
     tableName: 'alumnos',
     timestamps: false});
 

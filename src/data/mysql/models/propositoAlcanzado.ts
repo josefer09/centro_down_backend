@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../dbConfig";
-import { PropositoModel } from "./proposito";
+import { PropositoModel } from './proposito';
 import { AprendizajeEsperadoModel } from './aprendizaje-esperado';
 import { PropositoAlcanzadoAprendizajeModel } from './propositoAlcanzadoAprendizaje';
 
@@ -16,7 +16,7 @@ export class PropositoAlcanzadoModel extends Model {
             as: 'proposito',
         });
 
-        // Asociación de muchos a muchos con AprendizajeEsperadoModel
+        // Asociación de muchos a muchos con AprendizajeEspera  doModel
         PropositoAlcanzadoModel.belongsToMany(models.AprendizajeEsperadoModel, {
             through: models.PropositoAlcanzadoAprendizajeModel,
             foreignKey: 'id_proposito_alcanzado',
@@ -47,6 +47,7 @@ PropositoAlcanzadoModel.init({
     },
 }, {
     sequelize,
+    modelName: 'PropositoAlcanzadoModel',
     tableName: 'propositos_alcanzados',
     timestamps: false,
 });

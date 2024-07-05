@@ -58,6 +58,7 @@ ProfesorModel.init({
     },
 }, {
     sequelize,
+    modelName: 'ProfesorModel',
     tableName: 'profesores',
     timestamps: false});
 

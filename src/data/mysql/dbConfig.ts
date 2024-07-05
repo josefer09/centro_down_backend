@@ -20,6 +20,10 @@ import {AprendizajeActividadModel} from './models/actividadAprendizaje';
 import { PropositoAlcanzadoModel } from "./models/propositoAlcanzado";
 import { PropositoModel } from "./models/proposito";
 import { PropositoAlcanzadoAprendizajeModel } from "./models/propositoAlcanzadoAprendizaje";
+import { PlanSemestralModel } from "./models/planSemestral";
+import { AlumnoModel } from "./models/alumno";
+import { ProfesorModel } from "./models/profesores";
+import { PlanSemestralPropositosModel } from "./models/planSemestralPropositos";
 
 AprendizajeEsperadoModel.associate({
     ActividadModel,
@@ -37,13 +41,27 @@ PropositoAlcanzadoModel.associate({
     PropositoAlcanzadoAprendizajeModel,
 });
 
- sequelize.sync({ alter: true })
+// Asociar los modelos
+PlanSemestralModel.associate({
+    PropositoAlcanzadoModel,
+    AlumnoModel,
+    ProfesorModel,
+    PlanSemestralPropositosModel, // Asegúrate de pasar este modelo aquí
+});
+
+
+async function syncTables() {
+    await sequelize.sync({ alter: true })
      .then(() => {
          console.log('Todas las tablas han sido creadas o actualizadas.');
      })
      .catch(err => {
          console.error('Hubo un error al crear o actualizar las tablas:', err);
      });
+}
+
+syncTables();
 
 
 export { sequelize };
+

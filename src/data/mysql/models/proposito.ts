@@ -25,6 +25,7 @@ PropositoModel.init({
     },
 }, {
     sequelize,
+    modelName: 'PropositoModel',
     tableName: 'propositos',
     timestamps: false
 });
