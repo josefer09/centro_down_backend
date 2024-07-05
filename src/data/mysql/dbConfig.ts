@@ -28,13 +28,13 @@ ActividadModel.associate({
     AprendizajeActividadModel,
 });
 
-// sequelize.sync({ alter: true })
-//     .then(() => {
-//         console.log('Todas las tablas han sido creadas o actualizadas.');
-//     })
-//     .catch(err => {
-//         console.error('Hubo un error al crear o actualizar las tablas:', err);
-//     });
+ sequelize.sync({ alter: true })
+     .then(() => {
+         console.log('Todas las tablas han sido creadas o actualizadas.');
+     })
+     .catch(err => {
+         console.error('Hubo un error al crear o actualizar las tablas:', err);
+     });
 
 
 export { sequelize };
