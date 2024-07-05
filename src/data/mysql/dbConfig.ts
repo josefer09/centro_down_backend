@@ -17,6 +17,9 @@ const sequelize = new Sequelize(
 import { AprendizajeEsperadoModel } from "./models/aprendizaje-esperado";
 import {ActividadModel} from './models/actividad';
 import {AprendizajeActividadModel} from './models/actividadAprendizaje';
+import { PropositoAlcanzadoModel } from "./models/propositoAlcanzado";
+import { PropositoModel } from "./models/proposito";
+import { PropositoAlcanzadoAprendizajeModel } from "./models/propositoAlcanzadoAprendizaje";
 
 AprendizajeEsperadoModel.associate({
     ActividadModel,
@@ -26,6 +29,12 @@ AprendizajeEsperadoModel.associate({
 ActividadModel.associate({
     AprendizajeEsperadoModel,
     AprendizajeActividadModel,
+});
+
+PropositoAlcanzadoModel.associate({
+    PropositoModel,
+    AprendizajeEsperadoModel,
+    PropositoAlcanzadoAprendizajeModel,
 });
 
  sequelize.sync({ alter: true })

@@ -6,6 +6,7 @@ import { ProfesorRouter } from "./routes/profesor.routes";
 import { ActividadRouter } from "./routes/actividad.routes";
 import { AprendizajeEsperadoRouter } from "./routes/aprendizaje-esperado.routes";
 import { PropositoRouter } from './routes/proposito.routes';
+import { PropositoAlcanzadoRouter } from "./routes/propositoAlcanzado.routes";
 
 
 
@@ -21,6 +22,7 @@ export class AppRoutes {
         router.use('/api/actividad', ActividadRouter.routes);
         router.use('/api/aprendizaje_esperado', AprendizajeEsperadoRouter.routes);
         router.use('/api/proposito', PropositoRouter.routes);
+        router.use('/api/propositoAlcanzado', PropositoAlcanzadoRouter.routes);
 
         return router;
     }
