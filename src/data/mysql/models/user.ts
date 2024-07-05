@@ -10,7 +10,7 @@ export class UserModel extends Model {
     public emailValidated!: boolean;
     public password!: string;
     public token!: string;
-    public rol!: 'ADMIN' | 'MAESTRO' | 'TUTOR';
+    public rol!: 'ADMIN' | 'MAESTRO' | 'TUTOR' | 'COORDINADOR';
 }
 
 UserModel.init({
@@ -43,7 +43,7 @@ UserModel.init({
         allowNull: true
     },
     rol: {
-        type: DataTypes.ENUM('ADMIN', 'MAESTRO', 'TUTOR'),
+        type: DataTypes.ENUM('ADMIN', 'MAESTRO', 'TUTOR', 'COORDINADOR'),
         allowNull: false
     },
 }, {
